@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/tokens/base.css">
+  <link rel="stylesheet" href="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/styles.css">
+  <script src="_ds/vire-design-system-068680e2-7588-41d4-a9ff-49eaafbe9d37/_ds_bundle.js"></script>
+  <style>
+    html, body { margin: 0; height: 100%; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: var(--surface-page); font-family: var(--font-sans); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+    select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6266' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 30px !important; }
+    textarea:focus, input:focus, select:focus { outline: none; border-color: var(--brand-400); box-shadow: var(--ring-focus); }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 999px; border: 3px solid var(--surface-page); }
+    @keyframes vireIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  </style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="--brand-50:#E8F3EC; --brand-100:#CDE6D5; --brand-300:#8DC6A0; --brand-400:#4DA46A; --brand-500:#1F7A47; --brand-600:#176038; --brand-700:#114B2C; --surface-page:#F2F6F2; --surface-card:#FFFFFF; --btn-primary-bg:#1F7A47; --btn-primary-bg-hover:#176038; --btn-primary-ink:#FFFFFF; --btn-primary-shadow:0 6px 18px rgba(31,122,71,0.28); --ring-focus:0 0 0 3px rgba(31,122,71,0.26); --status-info:#1F7A47; --status-info-bg:#E8F3EC; --app-glass:rgba(242,246,242,0.82); --ink-900:#1C2230; --ink-800:#2A3140; --ink-700:#404A5C; --ink-600:#5A6577; --ink-500:#8A93A3; --ink-400:#AEB6C2; --ink-300:#CBD2DB; --ink-200:#E2E6EC; --ink-100:#EBEEF2; --ink-50:#F4F6F9; height:100vh; display:flex; flex-direction:{{ shellDir }}; background:var(--surface-page); overflow:hidden;">
+
+  <sc-if value="{{ showSidebar }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex-shrink:0; width:{{ sidebarW }}px; background:var(--surface-card); border-right:1px solid var(--border-subtle); display:flex; flex-direction:column; padding:22px 14px; height:100%;">
+      <div style="display:flex; align-items:center; gap:11px; padding:0 8px 24px;">
+        <img src="assets/vire-logomark.svg" width="32" height="32" alt="Visinner">
+        <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; flex-direction:column; line-height:1.05;">
+            <span style="font-size:18px; font-weight:800; letter-spacing:-0.02em; color:var(--ink-900);">Visinner</span>
+            <span style="font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--text-muted); margin-top:4px;">Tilitoimisto</span>
+          </div>
+        </sc-if>
+      </div>
+      <nav style="display:flex; flex-direction:column; gap:4px; flex:1;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+          <button onClick="{{ item.onClick }}" title="{{ item.label }}" style="display:flex; align-items:center; gap:13px; padding:11px 12px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-size:14.5px; text-align:left; justify-content:{{ item.justify }}; background:{{ item.bg }}; color:{{ item.color }}; font-weight:{{ item.weight }}; transition:background .16s, color .16s;">
+            <span style="display:inline-flex;">{{ item.icon }}</span>
+            <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span>{{ item.label }}</span></sc-if>
+          </button>
+        </sc-for>
+      </nav>
+      <div style="border-top:1px solid var(--border-subtle); padding:14px 6px 0; margin-top:10px; display:flex; align-items:center; gap:11px;">
+        <span style="width:36px; height:36px; border-radius:50%; background:var(--brand-100); color:var(--brand-700); display:grid; place-items:center; font-weight:700; font-size:13px; flex-shrink:0;">AK</span>
+        <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--ink-900);">Anna Korhonen</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">Kirjanpitäjä</div>
+          </div>
+        </sc-if>
+      </div>
+    </aside>
+  </sc-if>
+
+  <main style="flex:1; min-width:0; height:100%; overflow-y:auto; display:flex; flex-direction:column;">
+    <header style="position:sticky; top:0; z-index:6; background:var(--surface-page); border-bottom:1px solid var(--border-subtle); padding:{{ headerPad }}; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+      <div style="min-width:0; flex:1;">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <h1 style="font-size:{{ titleSize }}px; font-weight:800; letter-spacing:-0.02em; margin:0; color:var(--ink-900); white-space:nowrap;">{{ pageTitle }}</h1>
+          <sc-if value="{{ showWeekPill }}" hint-placeholder-val="{{ true }}">
+            <span style="font-size:12px; font-weight:700; color:var(--brand-700); background:var(--brand-50); padding:4px 11px; border-radius:999px;">Viikko {{ weekNoToday }}</span>
+          </sc-if>
+        </div>
+        <p style="font-size:13.5px; color:var(--text-muted); margin:3px 0 0;">{{ pageSubtitle }}</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button onClick="{{ onSync }}" style="display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:999px; border:1px solid var(--border-subtle); background:var(--surface-card); cursor:pointer; font-family:var(--font-sans); font-size:12.5px; font-weight:600; color:var(--ink-700);" style-hover="border-color:var(--border-strong);">
+          <span style="display:inline-flex; color:var(--status-success);">{{ icCloud }}</span>
+          <span>OneDrive · {{ syncText }}</span>
+          <span style="display:inline-flex; color:var(--ink-400);">{{ icSync }}</span>
+        </button>
+        <button aria-label="Ilmoitukset" style="width:42px; height:42px; display:grid; place-items:center; border-radius:999px; border:1px solid var(--border-subtle); background:var(--surface-card); cursor:pointer; color:var(--ink-700); position:relative;">
+          {{ icBell }}
+          <span style="position:absolute; top:9px; right:10px; width:7px; height:7px; border-radius:50%; background:var(--coral-500); border:1.5px solid var(--surface-card);"></span>
+        </button>
+      </div>
+    </header>
+
+    <div style="flex:1; padding:{{ contentPad }};">
+      <div style="max-width:1180px; margin:0 auto;">
+
+        <!-- ===== ETUSIVU ===== -->
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+          <div style="">
+            <div style="display:grid; grid-template-columns:{{ statCols }}; gap:14px; margin-bottom:20px;">
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:16px; display:flex; align-items:center; gap:13px;">
+                <span style="width:44px; height:44px; border-radius:13px; background:var(--coral-100); color:var(--coral-700); display:grid; place-items:center;">{{ icFlag }}</span>
+                <div><div style="font-size:24px; font-weight:800; letter-spacing:-0.02em; color:var(--ink-900);">{{ openTasksCount }}</div><div style="font-size:12.5px; color:var(--text-muted);">Avointa tehtävää</div></div>
+              </div>
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:16px; display:flex; align-items:center; gap:13px;">
+                <span style="width:44px; height:44px; border-radius:13px; background:var(--sage-100); color:var(--sage-700); display:grid; place-items:center;">{{ icCalendar }}</span>
+                <div><div style="font-size:24px; font-weight:800; letter-spacing:-0.02em; color:var(--ink-900);">{{ eventsTodayCount }}</div><div style="font-size:12.5px; color:var(--text-muted);">Tänään kalenterissa</div></div>
+              </div>
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:16px; display:flex; align-items:center; gap:13px;">
+                <span style="width:44px; height:44px; border-radius:13px; background:var(--brand-50); color:var(--brand-700); display:grid; place-items:center;">{{ icUsers }}</span>
+                <div><div style="font-size:24px; font-weight:800; letter-spacing:-0.02em; color:var(--ink-900);">{{ customerCount }}</div><div style="font-size:12.5px; color:var(--text-muted);">Asiakasta</div></div>
+              </div>
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:16px; display:flex; align-items:center; gap:13px;">
+                <span style="width:44px; height:44px; border-radius:13px; background:var(--apricot-100); color:var(--apricot-700); display:grid; place-items:center;">{{ icNotebook }}</span>
+                <div><div style="font-size:24px; font-weight:800; letter-spacing:-0.02em; color:var(--ink-900);">{{ notesCount }}</div><div style="font-size:12.5px; color:var(--text-muted);">Muistiinpanoa</div></div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:{{ homeCols }}; gap:20px; align-items:start;">
+              <div style="display:flex; flex-direction:column; gap:20px;">
+                <section style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+                    <div style="display:flex; align-items:baseline; gap:9px;">
+                      <h2 style="font-size:17px; font-weight:700; margin:0; color:var(--ink-900);">Tämän päivän tehtävät</h2>
+                      <span style="font-size:13px; font-weight:700; color:var(--text-muted);">{{ openTasksCount }}</span>
+                    </div>
+                    <span style="font-size:12px; color:var(--text-muted);">Klikkaa ympyrää → arkistoon</span>
+                  </div>
+                  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+                    <input value="{{ newTodoText }}" onInput="{{ onNewTodoText }}" onKeyDown="{{ onTodoKey }}" placeholder="Uusi tehtävä…" style="height:42px; flex:1; min-width:150px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900);">
+                    <select value="{{ newTodoCust }}" onChange="{{ onNewTodoCust }}" style="height:42px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 12px; font-family:var(--font-sans); font-size:13.5px; color:var(--ink-800); cursor:pointer;">
+                      <option value="">Ei asiakasta</option>
+                      <sc-for list="{{ customerOpts }}" as="c" hint-placeholder-count="6"><option value="{{ c.id }}">{{ c.name }}</option></sc-for>
+                    </select>
+                    <select value="{{ newTodoPrio }}" onChange="{{ onNewTodoPrio }}" style="height:42px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 12px; font-family:var(--font-sans); font-size:13.5px; color:var(--ink-800); cursor:pointer;">
+                      <option value="korkea">Korkea</option>
+                      <option value="keski">Keski</option>
+                      <option value="matala">Matala</option>
+                    </select>
+                    <button onClick="{{ addTodo }}" style="height:42px; padding:0 18px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:14px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow); display:inline-flex; align-items:center; gap:6px;" style-hover="background:var(--btn-primary-bg-hover);">{{ icPlus }} Lisää</button>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:9px;">
+                    <sc-for list="{{ todosToday }}" as="item" hint-placeholder-count="6">
+                      <div style="display:flex; align-items:center; gap:14px; padding:13px 14px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); background:var(--white); opacity:{{ item.opacity }}; transform:translateX({{ item.shift }}); transition:opacity .3s ease, transform .3s ease;">
+                        <button onClick="{{ item.onComplete }}" aria-label="Merkitse tehdyksi" style="width:27px; height:27px; border-radius:50%; border:2px solid {{ item.prioColor }}; background:transparent; cursor:pointer; flex-shrink:0; display:grid; place-items:center; color:#fff; transition:background .15s;" style-hover="background:{{ item.prioColor }};">{{ icCheck }}</button>
+                        <div style="flex:1; min-width:0;">
+                          <div style="font-size:14.5px; font-weight:600; color:var(--ink-900);">{{ item.text }}</div>
+                          <div style="display:inline-flex; align-items:center; gap:5px; margin-top:4px; font-size:12px; color:var(--text-muted);">{{ icBuilding }} {{ item.custName }}</div>
+                        </div>
+                        <x-import component-from-global-scope="VireDesignSystem_068680.Badge" hint-size="auto,22px" tone="{{ item.prioTone }}" size="sm">{{ item.prioLabel }}</x-import>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ noTodos }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding:28px; text-align:center; color:var(--text-muted); font-size:14px;">Kaikki tehtävät tehty — hyvää työtä.</div>
+                    </sc-if>
+                  </div>
+                </section>
+
+                <section style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                  <button onClick="{{ toggleHist }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; background:none; border:none; cursor:pointer; padding:0; font-family:var(--font-sans);">
+                    <div style="display:flex; align-items:center; gap:9px;">
+                      <span style="display:inline-flex; color:var(--ink-500);">{{ icArchive }}</span>
+                      <h2 style="font-size:17px; font-weight:700; margin:0; color:var(--ink-900);">Historia</h2>
+                      <span style="font-size:13px; font-weight:700; color:var(--text-muted);">{{ archiveCount }}</span>
+                    </div>
+                    <span style="display:inline-flex; color:var(--ink-400); transform:rotate({{ histRotate }}); transition:transform .2s;">{{ icChevDown }}</span>
+                  </button>
+                  <sc-if value="{{ histOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex; flex-direction:column; gap:8px; margin-top:14px;">
+                      <sc-for list="{{ archiveList }}" as="a" hint-placeholder-count="4">
+                        <div style="display:flex; align-items:center; gap:12px; padding:11px 13px; border-radius:var(--radius-md); background:var(--ink-50);">
+                          <span style="width:22px; height:22px; border-radius:50%; background:var(--green-500); display:grid; place-items:center; color:#fff; flex-shrink:0;">{{ icCheck }}</span>
+                          <div style="flex:1; min-width:0;">
+                            <div style="font-size:13.5px; font-weight:600; color:var(--ink-700); text-decoration:line-through; text-decoration-color:var(--ink-300);">{{ a.text }}</div>
+                            <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">{{ a.custName }} · {{ a.completedText }}</div>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </section>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:20px;">
+                <section style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                  <div style="display:flex; align-items:center; gap:9px; margin-bottom:14px;">
+                    <span style="width:34px; height:34px; border-radius:10px; background:var(--apricot-100); color:var(--apricot-700); display:grid; place-items:center;">{{ icZap }}</span>
+                    <h2 style="font-size:17px; font-weight:700; margin:0; color:var(--ink-900);">Pikamuistiinpano</h2>
+                  </div>
+                  <textarea value="{{ qnText }}" onInput="{{ onQnText }}" placeholder="Kirjaa nopea muistiinpano…" style="width:100%; min-height:90px; resize:vertical; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:12px 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900); line-height:1.5;"></textarea>
+                  <select value="{{ qnCust }}" onChange="{{ onQnCust }}" style="width:100%; height:42px; margin-top:10px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:13.5px; color:var(--ink-800); cursor:pointer;">
+                    <option value="">Kohdista asiakkaalle…</option>
+                    <sc-for list="{{ customerOpts }}" as="c" hint-placeholder-count="6"><option value="{{ c.id }}">{{ c.name }}</option></sc-for>
+                  </select>
+                  <div style="display:flex; gap:8px; margin-top:12px;">
+                    <button onClick="{{ saveQuickNote }}" style="flex:1; height:42px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:13.5px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow);" style-hover="background:var(--btn-primary-bg-hover);">Tallenna</button>
+                    <button onClick="{{ addQuickTodo }}" style="flex:1; height:42px; border-radius:var(--radius-md); border:1.5px solid var(--border-default); cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:13.5px; background:var(--surface-card); color:var(--ink-800);" style-hover="background:var(--surface-sunken);">Lisää to-do:hon</button>
+                  </div>
+                </section>
+
+                <section style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+                    <h2 style="font-size:17px; font-weight:700; margin:0; color:var(--ink-900);">Tänään kalenterissa</h2>
+                    <button onClick="{{ goCalendar }}" style="display:inline-flex; align-items:center; gap:5px; background:none; border:none; cursor:pointer; font-family:var(--font-sans); font-size:12.5px; font-weight:600; color:var(--brand-600);">Avaa {{ icArrowRight }}</button>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:9px;">
+                    <sc-for list="{{ todayEvents }}" as="e" hint-placeholder-count="3">
+                      <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="font-size:12.5px; font-weight:700; color:var(--ink-700); width:42px; flex-shrink:0; font-variant-numeric:tabular-nums;">{{ e.startText }}</div>
+                        <span style="width:3px; height:34px; border-radius:3px; background:{{ e.dot }}; flex-shrink:0;"></span>
+                        <div style="flex:1; min-width:0;">
+                          <div style="font-size:13.5px; font-weight:600; color:var(--ink-900);">{{ e.title }}</div>
+                          <div style="font-size:11.5px; color:var(--text-muted);">{{ e.srcLabel }}{{ e.custSuffix }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ noTodayEvents }}" hint-placeholder-val="{{ false }}"><div style="padding:14px 0; text-align:center; color:var(--text-muted); font-size:13px;">Ei merkintöjä tänään.</div></sc-if>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== KALENTERI ===== -->
+        <sc-if value="{{ isCalendar }}" hint-placeholder-val="{{ false }}">
+          <div style="">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:18px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <button onClick="{{ prevWeek }}" aria-label="Edellinen viikko" style="width:40px; height:40px; display:grid; place-items:center; border-radius:var(--radius-md); border:1px solid var(--border-subtle); background:var(--surface-card); cursor:pointer; color:var(--ink-700);" style-hover="background:var(--surface-sunken);">{{ icChevL }}</button>
+                <button onClick="{{ gotoToday }}" style="height:40px; padding:0 16px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); background:var(--surface-card); cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:13.5px; color:var(--ink-800);" style-hover="background:var(--surface-sunken);">Tänään</button>
+                <button onClick="{{ nextWeek }}" aria-label="Seuraava viikko" style="width:40px; height:40px; display:grid; place-items:center; border-radius:var(--radius-md); border:1px solid var(--border-subtle); background:var(--surface-card); cursor:pointer; color:var(--ink-700);" style-hover="background:var(--surface-sunken);">{{ icChevR }}</button>
+                <div style="margin-left:6px;">
+                  <div style="display:flex; align-items:center; gap:9px;"><span style="font-size:18px; font-weight:800; letter-spacing:-0.02em; color:var(--ink-900);">Viikko {{ weekNo }}</span><span style="font-size:13px; color:var(--text-muted);">{{ weekRangeText }}</span></div>
+                </div>
+              </div>
+              <button onClick="{{ onSync }}" style="display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 16px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:13.5px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow);" style-hover="background:var(--btn-primary-bg-hover);">{{ icSync }} Synkronoi kalenterit</button>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:14px; font-size:12.5px; color:var(--text-muted);">
+              <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--sage-500);"></span>Outlook</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:9px; height:9px; border-radius:50%; background:#9B7FB0;"></span>Teams</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--brand-500);"></span>Visinner</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--ink-400);"></span>Tehtävä</span>
+              <span style="margin-left:auto; display:inline-flex; align-items:center; gap:6px; color:var(--green-700);">{{ icCheckCircle }} Tuotu {{ lastImportText }}</span>
+            </div>
+
+            <div style="overflow-x:auto; padding-bottom:6px;">
+              <div style="display:flex; gap:10px; min-width:760px;">
+                <sc-for list="{{ weekDays }}" as="day" hint-placeholder-count="7">
+                  <div style="flex:1; min-width:104px; display:flex; flex-direction:column;">
+                    <div style="text-align:center; padding:9px 0; border-radius:var(--radius-md); margin-bottom:9px; background:{{ day.headBg }}; color:{{ day.headFg }};">
+                      <div style="font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;">{{ day.label }}</div>
+                      <div style="font-size:19px; font-weight:800; margin-top:2px; letter-spacing:-0.02em;">{{ day.dayNum }}</div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:7px; min-height:80px;">
+                      <sc-for list="{{ day.items }}" as="it" hint-placeholder-count="2">
+                        <div style="background:{{ it.bg }}; border-left:3px solid {{ it.dot }}; border-radius:8px; padding:8px 9px;">
+                          <div style="font-size:11px; font-weight:700; color:{{ it.fg }}; font-variant-numeric:tabular-nums;">{{ it.timeText }}</div>
+                          <div style="font-size:12.5px; font-weight:600; color:var(--ink-900); margin-top:2px; line-height:1.25;">{{ it.title }}</div>
+                          <sc-if value="{{ it.hasSub }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">{{ it.sub }}</div></sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== ASIAKKAAT ===== -->
+        <sc-if value="{{ isCustomers }}" hint-placeholder-val="{{ false }}">
+          <div style=" display:grid; grid-template-columns:{{ custCols }}; gap:18px; align-items:start;">
+            <section style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:16px;">
+              <div style="position:relative; margin-bottom:14px;">
+                <span style="position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--ink-400); display:inline-flex;">{{ icSearch }}</span>
+                <input value="{{ custSearch }}" onInput="{{ onCustSearch }}" placeholder="Hae asiakasta…" style="width:100%; height:44px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px 0 40px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900);">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:5px; max-height:520px; overflow-y:auto;">
+                <sc-for list="{{ custList }}" as="c" hint-placeholder-count="6">
+                  <button onClick="{{ c.onSelect }}" style="display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:var(--radius-md); border:none; cursor:pointer; text-align:left; background:{{ c.bg }}; font-family:var(--font-sans);">
+                    <span style="width:40px; height:40px; border-radius:50%; background:{{ c.avBg }}; color:{{ c.avFg }}; display:grid; place-items:center; font-weight:700; font-size:14px; flex-shrink:0;">{{ c.initials }}</span>
+                    <div style="flex:1; min-width:0;">
+                      <div style="font-size:14px; font-weight:700; color:var(--ink-900); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ c.company }}</div>
+                      <div style="font-size:12px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ c.contact }}</div>
+                    </div>
+                    <sc-if value="{{ c.hasOpen }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px; font-weight:700; color:var(--coral-700); background:var(--coral-100); padding:3px 8px; border-radius:999px;">{{ c.openTasks }}</span></sc-if>
+                  </button>
+                </sc-for>
+                <sc-if value="{{ noCustResults }}" hint-placeholder-val="{{ false }}"><div style="padding:24px; text-align:center; color:var(--text-muted); font-size:13.5px;">Ei osumia haulle.</div></sc-if>
+              </div>
+            </section>
+
+            <section style="display:flex; flex-direction:column; gap:18px;">
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:22px;">
+                <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
+                  <span style="width:56px; height:56px; border-radius:50%; background:{{ selCust.avBg }}; color:{{ selCust.avFg }}; display:grid; place-items:center; font-weight:700; font-size:19px; flex-shrink:0;">{{ selCust.initials }}</span>
+                  <div style="flex:1; min-width:0;">
+                    <h2 style="font-size:21px; font-weight:800; letter-spacing:-0.02em; margin:0; color:var(--ink-900);">{{ selCust.company }}</h2>
+                    <div style="font-size:13.5px; color:var(--text-muted); margin-top:2px;">{{ selCust.contact }} · {{ selCust.typeLabel }}</div>
+                  </div>
+                  <button onClick="{{ openNoteForSel }}" style="height:42px; padding:0 18px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:13.5px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow); display:inline-flex; align-items:center; gap:6px;" style-hover="background:var(--btn-primary-bg-hover);">{{ icPlus }} Muistiinpano</button>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
+                  <div style="flex:1; min-width:180px; display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:var(--radius-md); background:var(--ink-50);">
+                    <span style="display:inline-flex; color:var(--brand-500);">{{ icPhone }}</span><span style="font-size:13.5px; color:var(--ink-800); font-weight:500;">{{ selCust.phone }}</span>
+                  </div>
+                  <div style="flex:1; min-width:180px; display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:var(--radius-md); background:var(--ink-50);">
+                    <span style="display:inline-flex; color:var(--brand-500);">{{ icMail }}</span><span style="font-size:13.5px; color:var(--ink-800); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ selCust.email }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                <h3 style="font-size:15px; font-weight:700; margin:0 0 12px; color:var(--ink-900);">Avoimet tehtävät</h3>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <sc-for list="{{ selCustTodos }}" as="t" hint-placeholder-count="2">
+                    <div style="display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
+                      <span style="width:8px; height:8px; border-radius:50%; background:{{ t.prioColor }}; flex-shrink:0;"></span>
+                      <span style="flex:1; font-size:13.5px; font-weight:600; color:var(--ink-900);">{{ t.text }}</span>
+                      <x-import component-from-global-scope="VireDesignSystem_068680.Badge" hint-size="auto,20px" tone="{{ t.prioTone }}" size="sm">{{ t.prioLabel }}</x-import>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ selCust.noTodos }}" hint-placeholder-val="{{ false }}"><div style="padding:8px 0; color:var(--text-muted); font-size:13px;">Ei avoimia tehtäviä.</div></sc-if>
+                </div>
+              </div>
+
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                <h3 style="font-size:15px; font-weight:700; margin:0 0 12px; color:var(--ink-900);">Muistiinpanot</h3>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <sc-for list="{{ selCustNotes }}" as="n" hint-placeholder-count="2">
+                    <div style="padding:13px 14px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); background:var(--ink-50);">
+                      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:5px;">
+                        <span style="font-size:14px; font-weight:700; color:var(--ink-900);">{{ n.title }}</span>
+                        <x-import component-from-global-scope="VireDesignSystem_068680.Badge" hint-size="auto,20px" tone="{{ n.prioTone }}" size="sm">{{ n.prioLabel }}</x-import>
+                      </div>
+                      <div style="font-size:13px; color:var(--text-secondary); line-height:1.5;">{{ n.body }}</div>
+                      <div style="font-size:11.5px; color:var(--text-muted); margin-top:7px;">{{ n.category }}</div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ selCust.noNotes }}" hint-placeholder-val="{{ false }}"><div style="padding:8px 0; color:var(--text-muted); font-size:13px;">Ei muistiinpanoja vielä.</div></sc-if>
+                </div>
+              </div>
+            </section>
+          </div>
+        </sc-if>
+
+        <!-- ===== MUISTIINPANOT ===== -->
+        <sc-if value="{{ isNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="">
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px;">
+              <div style="position:relative; flex:1; min-width:200px;">
+                <span style="position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--ink-400); display:inline-flex;">{{ icSearch }}</span>
+                <input value="{{ noteSearch }}" onInput="{{ onNoteSearch }}" placeholder="Hae muistiinpanoista tai asiakkaista…" style="width:100%; height:44px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px 0 40px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900);">
+              </div>
+              <x-import component-from-global-scope="VireDesignSystem_068680.SegmentedControl" hint-size="300px,40px" options="{{ notePrioOptions }}" value="{{ notePrio }}" on-change="{{ onNotePrio }}"></x-import>
+              <button onClick="{{ openNewNote }}" style="height:44px; padding:0 18px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:14px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow); display:inline-flex; align-items:center; gap:6px;" style-hover="background:var(--btn-primary-bg-hover);">{{ icPlus }} Uusi muistiinpano</button>
+            </div>
+
+            <div style="display:grid; grid-template-columns:{{ notesCols }}; gap:14px;">
+              <sc-for list="{{ notesList }}" as="n" hint-placeholder-count="6">
+                <div style="background:var(--surface-card); border:1px solid {{ n.borderColor }}; border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:18px; display:flex; flex-direction:column;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:9px;">
+                    <div style="display:inline-flex; align-items:center; gap:7px; min-width:0;">
+                      <span style="width:28px; height:28px; border-radius:50%; background:{{ n.avBg }}; color:{{ n.avFg }}; display:grid; place-items:center; font-weight:700; font-size:11px; flex-shrink:0;">{{ n.initials }}</span>
+                      <span style="font-size:12.5px; font-weight:600; color:var(--ink-700); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ n.custName }}</span>
+                    </div>
+                    <button onClick="{{ n.onPin }}" aria-label="Kiinnitä" style="width:30px; height:30px; display:grid; place-items:center; border-radius:8px; border:none; background:{{ n.pinBg }}; cursor:pointer; color:{{ n.pinColor }};" style-hover="background:var(--surface-sunken);">{{ icPin }}</button>
+                  </div>
+                  <h3 style="font-size:15.5px; font-weight:700; margin:0 0 6px; color:var(--ink-900); line-height:1.3;">{{ n.title }}</h3>
+                  <p style="font-size:13px; color:var(--text-secondary); line-height:1.55; margin:0 0 14px; flex:1;">{{ n.body }}</p>
+                  <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding-top:12px; border-top:1px solid var(--border-subtle);">
+                    <div style="display:inline-flex; align-items:center; gap:7px;">
+                      <x-import component-from-global-scope="VireDesignSystem_068680.Badge" hint-size="auto,20px" tone="{{ n.prioTone }}" size="sm">{{ n.prioLabel }}</x-import>
+                      <span style="font-size:11px; font-weight:600; color:var(--ink-600); background:var(--ink-100); padding:3px 8px; border-radius:999px;">{{ n.category }}</span>
+                    </div>
+                    <div style="display:inline-flex; align-items:center; gap:4px;">
+                      <button onClick="{{ n.onSchedule }}" title="Ajasta to-do:ksi" style="width:30px; height:30px; display:grid; place-items:center; border-radius:8px; border:none; background:transparent; cursor:pointer; color:var(--ink-500);" style-hover="background:var(--surface-sunken); color:var(--brand-600);">{{ icClock }}</button>
+                      <button onClick="{{ n.onDelete }}" title="Poista" style="width:30px; height:30px; display:grid; place-items:center; border-radius:8px; border:none; background:transparent; cursor:pointer; color:var(--ink-500);" style-hover="background:var(--coral-100); color:var(--coral-700);">{{ icTrash }}</button>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ noNotes }}" hint-placeholder-val="{{ false }}"><div style="padding:40px; text-align:center; color:var(--text-muted); font-size:14px;">Ei muistiinpanoja tällä haulla.</div></sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== TALLENNUSTILA ===== -->
+        <sc-if value="{{ isStorage }}" hint-placeholder-val="{{ false }}">
+          <div style=" display:flex; flex-direction:column; gap:18px;">
+            <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
+              <span style="width:56px; height:56px; border-radius:16px; background:var(--brand-50); color:var(--brand-600); display:grid; place-items:center;">{{ icCloudBig }}</span>
+              <div style="flex:1; min-width:220px;">
+                <div style="display:flex; align-items:center; gap:9px;">
+                  <h2 style="font-size:19px; font-weight:800; letter-spacing:-0.02em; margin:0; color:var(--ink-900);">OneDrive</h2>
+                  <x-import component-from-global-scope="VireDesignSystem_068680.Badge" hint-size="auto,22px" tone="success" size="sm">Yhdistetty</x-import>
+                </div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">Visinner-tiimi · {{ lastSyncText }}</div>
+                <div style="margin-top:12px;">
+                  <div style="height:9px; border-radius:999px; background:var(--ink-100); overflow:hidden;"><div style="height:100%; width:{{ storagePct }}%; border-radius:999px; background:var(--brand-400);"></div></div>
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">{{ storageUsedText }} / {{ storageTotalText }} käytössä</div>
+                </div>
+              </div>
+              <button onClick="{{ onSync }}" style="height:44px; padding:0 18px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:14px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow); display:inline-flex; align-items:center; gap:7px;" style-hover="background:var(--btn-primary-bg-hover);">{{ icSync }} Synkronoi nyt</button>
+            </div>
+
+            <div style="display:grid; grid-template-columns:{{ storageCols }}; gap:18px; align-items:start;">
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                <h3 style="font-size:15px; font-weight:700; margin:0 0 14px; color:var(--ink-900);">Kansiot</h3>
+                <div style="display:grid; grid-template-columns:{{ folderCols }}; gap:10px;">
+                  <sc-for list="{{ folders }}" as="f" hint-placeholder-count="6">
+                    <div style="padding:14px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:9px; cursor:pointer; transition:border-color .15s;" style-hover="border-color:var(--border-strong);">
+                      <span style="display:inline-flex; color:var(--apricot-500);">{{ icFolder }}</span>
+                      <div><div style="font-size:13.5px; font-weight:700; color:var(--ink-900);">{{ f.name }}</div><div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">{{ f.count }} tiedostoa</div></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+                <h3 style="font-size:15px; font-weight:700; margin:0 0 14px; color:var(--ink-900);">Integraatiot</h3>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <sc-for list="{{ integrations }}" as="g" hint-placeholder-count="3">
+                    <div style="display:flex; align-items:center; gap:12px; padding:12px 13px; border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
+                      <span style="width:38px; height:38px; border-radius:10px; background:{{ g.bg }}; color:{{ g.fg }}; display:grid; place-items:center; flex-shrink:0;">{{ g.icon }}</span>
+                      <div style="flex:1; min-width:0;"><div style="font-size:13.5px; font-weight:700; color:var(--ink-900);">{{ g.name }}</div><div style="font-size:11.5px; color:var(--text-muted);">{{ g.statusText }}</div></div>
+                      <button onClick="{{ g.onToggle }}" role="switch" aria-checked="{{ g.on }}" style="width:46px; height:27px; border-radius:999px; border:none; cursor:pointer; padding:3px; background:{{ g.trackBg }}; transition:background .2s; display:flex; justify-content:{{ g.knobPos }};"><span style="width:21px; height:21px; border-radius:50%; background:#fff; box-shadow:var(--shadow-sm); transition:all .2s;"></span></button>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:20px;">
+              <h3 style="font-size:15px; font-weight:700; margin:0 0 14px; color:var(--ink-900);">Viimeisimmät tiedostot</h3>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <sc-for list="{{ recentFiles }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:13px; padding:11px 10px; border-radius:var(--radius-md); transition:background .15s;" style-hover="background:var(--ink-50);">
+                    <span style="width:38px; height:38px; border-radius:9px; background:var(--sage-100); color:var(--sage-700); display:grid; place-items:center; flex-shrink:0;">{{ icFile }}</span>
+                    <div style="flex:1; min-width:0;"><div style="font-size:13.5px; font-weight:600; color:var(--ink-900); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ r.name }}</div><div style="font-size:11.5px; color:var(--text-muted);">{{ r.cust }}</div></div>
+                    <div style="text-align:right; flex-shrink:0;"><div style="font-size:12px; color:var(--ink-700); font-weight:600;">{{ r.size }}</div><div style="font-size:11px; color:var(--text-muted);">{{ r.modified }}</div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </main>
+
+  <sc-if value="{{ showBottomNav }}" hint-placeholder-val="{{ false }}">
+    <nav style="flex-shrink:0; display:flex; background:var(--app-glass); backdrop-filter:blur(14px); border-top:1px solid var(--border-subtle); padding:6px 4px;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <button onClick="{{ item.onClick }}" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 4px; border:none; background:transparent; cursor:pointer; color:{{ item.color }}; font-family:var(--font-sans); font-size:10.5px; font-weight:{{ item.weight }};">
+          <span style="display:inline-flex;">{{ item.icon }}</span>
+          {{ item.label }}
+        </button>
+      </sc-for>
+    </nav>
+  </sc-if>
+
+  <!-- ===== MODAALI: UUSI MUISTIINPANO ===== -->
+  <sc-if value="{{ showNoteModal }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeNote }}" style="position:fixed; inset:0; z-index:50; background:var(--surface-overlay); display:flex; align-items:{{ modalAlign }}; justify-content:center; padding:{{ modalPad }};">
+      <div onClick="{{ stop }}" style="background:var(--surface-card); border-radius:{{ modalRadius }}; width:100%; max-width:560px; max-height:92vh; overflow-y:auto; padding:24px; box-shadow:var(--shadow-xl); ">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px;">
+          <h2 style="font-size:19px; font-weight:800; letter-spacing:-0.02em; margin:0; color:var(--ink-900); white-space:nowrap;">Uusi muistiinpano</h2>
+          <button onClick="{{ closeNote }}" aria-label="Sulje" style="width:38px; height:38px; display:grid; place-items:center; border-radius:999px; border:none; background:var(--ink-50); cursor:pointer; color:var(--ink-600);" style-hover="background:var(--ink-100);">{{ icX }}</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600; color:var(--ink-800);">Asiakas</span>
+            <select value="{{ draftCust }}" onChange="{{ onDraftCust }}" style="height:46px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900); cursor:pointer;">
+              <option value="">Valitse asiakas…</option>
+              <sc-for list="{{ customerOpts }}" as="c" hint-placeholder-count="6"><option value="{{ c.id }}">{{ c.name }}</option></sc-for>
+            </select>
+          </label>
+          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600; color:var(--ink-800);">Otsikko</span>
+            <input value="{{ draftTitle }}" onInput="{{ onDraftTitle }}" placeholder="Lyhyt otsikko" style="height:46px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900);">
+          </label>
+          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600; color:var(--ink-800);">Sisältö</span>
+            <textarea value="{{ draftBody }}" onInput="{{ onDraftBody }}" placeholder="Kirjoita muistiinpano…" style="min-height:96px; resize:vertical; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:12px 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900); line-height:1.5;"></textarea>
+          </label>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <label style="flex:1; min-width:140px; display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600; color:var(--ink-800);">Prioriteetti</span>
+              <select value="{{ draftPrio }}" onChange="{{ onDraftPrio }}" style="height:46px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900); cursor:pointer;">
+                <option value="korkea">Korkea</option><option value="keski">Keski</option><option value="matala">Matala</option>
+              </select>
+            </label>
+            <label style="flex:1; min-width:140px; display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600; color:var(--ink-800);">Kategoria</span>
+              <select value="{{ draftCat }}" onChange="{{ onDraftCat }}" style="height:46px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900); cursor:pointer;">
+                <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5"><option value="{{ cat }}">{{ cat }}</option></sc-for>
+              </select>
+            </label>
+          </div>
+          <label style="display:flex; flex-direction:column; gap:6px; padding:14px; border-radius:var(--radius-md); background:var(--brand-50);">
+            <span style="font-size:13px; font-weight:700; color:var(--brand-700); display:inline-flex; align-items:center; gap:7px;">{{ icClock }} Ajasta to-do-listalle</span>
+            <span style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">Valitse päivä, niin tehtävä ilmestyy oikealle päivälle. Jätä tyhjäksi vain muistiinpanoa varten.</span>
+            <input type="date" value="{{ draftDate }}" onInput="{{ onDraftDate }}" style="height:44px; border:1.5px solid var(--border-default); border-radius:var(--radius-md); background:var(--surface-card); padding:0 14px; font-family:var(--font-sans); font-size:14px; color:var(--ink-900);">
+          </label>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:22px;">
+          <button onClick="{{ closeNote }}" style="flex:1; height:46px; border-radius:var(--radius-md); border:1.5px solid var(--border-default); cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:14px; background:var(--surface-card); color:var(--ink-800);" style-hover="background:var(--surface-sunken);">Peruuta</button>
+          <button onClick="{{ saveNote }}" style="flex:1.4; height:46px; border-radius:var(--radius-md); border:none; cursor:pointer; font-family:var(--font-sans); font-weight:600; font-size:14px; background:var(--btn-primary-bg); color:var(--btn-primary-ink); box-shadow:var(--btn-primary-shadow);" style-hover="background:var(--btn-primary-bg-hover);">Tallenna muistiinpano</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860},&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sininen&quot;,&quot;petrooli&quot;,&quot;metsa&quot;,&quot;indigo&quot;,&quot;grafiitti&quot;],&quot;default&quot;:&quot;metsa&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.monthGen = ['tammikuuta','helmikuuta','maaliskuuta','huhtikuuta','toukokuuta','kesäkuuta','heinäkuuta','elokuuta','syyskuuta','lokakuuta','marraskuuta','joulukuuta'];
+    this.dayShort = ['Ma','Ti','Ke','To','Pe','La','Su'];
+    this.rootRef = React.createRef();
+    const coolInk = { '--ink-900':'#1C2230','--ink-800':'#2A3140','--ink-700':'#404A5C','--ink-600':'#5A6577','--ink-500':'#8A93A3','--ink-400':'#AEB6C2','--ink-300':'#CBD2DB','--ink-200':'#E2E6EC','--ink-100':'#EBEEF2','--ink-50':'#F4F6F9' };
+    const mk = (o) => Object.assign({}, coolInk, o);
+    this.palettes = {
+      sininen: mk({ '--brand-50':'#EAF1FB','--brand-100':'#D2E2F7','--brand-300':'#93BBED','--brand-400':'#5B92E0','--brand-500':'#2563EB','--brand-600':'#1D4FC4','--brand-700':'#1A3F99','--surface-page':'#F4F6FA','--surface-card':'#FFFFFF','--btn-primary-bg':'#2563EB','--btn-primary-bg-hover':'#1D4FC4','--btn-primary-ink':'#FFFFFF','--btn-primary-shadow':'0 6px 18px rgba(37,99,235,0.28)','--ring-focus':'0 0 0 3px rgba(37,99,235,0.28)','--status-info':'#2563EB','--status-info-bg':'#EAF1FB','--app-glass':'rgba(244,246,250,0.82)' }),
+      petrooli: mk({ '--brand-50':'#E4F3F3','--brand-100':'#C2E6E7','--brand-300':'#7FC8CB','--brand-400':'#3DA3A8','--brand-500':'#0F7C84','--brand-600':'#0B626A','--brand-700':'#094C53','--surface-page':'#F1F6F6','--surface-card':'#FFFFFF','--btn-primary-bg':'#0F7C84','--btn-primary-bg-hover':'#0B626A','--btn-primary-ink':'#FFFFFF','--btn-primary-shadow':'0 6px 18px rgba(15,124,132,0.28)','--ring-focus':'0 0 0 3px rgba(15,124,132,0.28)','--status-info':'#0F7C84','--status-info-bg':'#E4F3F3','--app-glass':'rgba(241,246,246,0.82)' }),
+      metsa: mk({ '--brand-50':'#E8F3EC','--brand-100':'#CDE6D5','--brand-300':'#8DC6A0','--brand-400':'#4DA46A','--brand-500':'#1F7A47','--brand-600':'#176038','--brand-700':'#114B2C','--surface-page':'#F2F6F2','--surface-card':'#FFFFFF','--btn-primary-bg':'#1F7A47','--btn-primary-bg-hover':'#176038','--btn-primary-ink':'#FFFFFF','--btn-primary-shadow':'0 6px 18px rgba(31,122,71,0.28)','--ring-focus':'0 0 0 3px rgba(31,122,71,0.26)','--status-info':'#1F7A47','--status-info-bg':'#E8F3EC','--app-glass':'rgba(242,246,242,0.82)' }),
+      indigo: mk({ '--brand-50':'#EEEDFD','--brand-100':'#DCD9FB','--brand-300':'#ABA6F4','--brand-400':'#7D75EE','--brand-500':'#5046E5','--brand-600':'#3F37C4','--brand-700':'#322C9C','--surface-page':'#F5F5FB','--surface-card':'#FFFFFF','--btn-primary-bg':'#5046E5','--btn-primary-bg-hover':'#3F37C4','--btn-primary-ink':'#FFFFFF','--btn-primary-shadow':'0 6px 18px rgba(80,70,229,0.28)','--ring-focus':'0 0 0 3px rgba(80,70,229,0.26)','--status-info':'#5046E5','--status-info-bg':'#EEEDFD','--app-glass':'rgba(245,245,251,0.82)' }),
+      grafiitti: mk({ '--brand-50':'#EEF1F5','--brand-100':'#DDE3EA','--brand-300':'#94A3B8','--brand-400':'#64748B','--brand-500':'#475569','--brand-600':'#364152','--brand-700':'#2A3340','--surface-page':'#F4F5F7','--surface-card':'#FFFFFF','--btn-primary-bg':'#3B4757','--btn-primary-bg-hover':'#2A3340','--btn-primary-ink':'#FFFFFF','--btn-primary-shadow':'0 6px 18px rgba(59,71,87,0.28)','--ring-focus':'0 0 0 3px rgba(71,85,105,0.26)','--status-info':'#475569','--status-info-bg':'#EEF1F5','--app-glass':'rgba(244,245,247,0.82)' })
+    };
+    this.dayFull = ['Sunnuntai','Maanantai','Tiistai','Keskiviikko','Torstai','Perjantai','Lauantai'];
+    this.cats = ['Verotus','Kirjanpito','Tilinpäätös','Palkat','Yleinen','Pikamuistiinpano'];
+    this.ICONS = {
+      house: [['path',{d:'M3 9.5 12 3l9 6.5'}],['path',{d:'M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10'}]],
+      calendar: [['rect',{x:3,y:4,width:18,height:17,rx:2.5}],['path',{d:'M3 9h18'}],['path',{d:'M8 2v4'}],['path',{d:'M16 2v4'}]],
+      users: [['path',{d:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'}],['circle',{cx:9,cy:7,r:4}],['path',{d:'M22 21v-2a4 4 0 0 0-3-3.87'}],['path',{d:'M16 3.13a4 4 0 0 1 0 7.75'}]],
+      notebook: [['path',{d:'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'}],['path',{d:'M14 3v5h5'}],['path',{d:'M9 13h6'}],['path',{d:'M9 17h5'}]],
+      drive: [['path',{d:'M22 12H2'}],['path',{d:'M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'}],['path',{d:'M6 16h.01'}],['path',{d:'M10 16h.01'}]],
+      cloud: [['path',{d:'M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'}]],
+      refresh: [['path',{d:'M3 12a9 9 0 0 1 15-6.7L21 8'}],['path',{d:'M21 3v5h-5'}],['path',{d:'M21 12a9 9 0 0 1-15 6.7L3 16'}],['path',{d:'M3 21v-5h5'}]],
+      bell: [['path',{d:'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9'}],['path',{d:'M10.3 21a1.94 1.94 0 0 0 3.4 0'}]],
+      check: [['path',{d:'M20 6 9 17l-5-5'}]],
+      checkCircle: [['circle',{cx:12,cy:12,r:9}],['path',{d:'m8 12 3 3 5-6'}]],
+      building: [['rect',{x:6,y:3,width:12,height:18,rx:1.5}],['path',{d:'M9 7h.01'}],['path',{d:'M15 7h.01'}],['path',{d:'M9 11h.01'}],['path',{d:'M15 11h.01'}],['path',{d:'M10 21v-3h4v3'}]],
+      search: [['circle',{cx:11,cy:11,r:7}],['path',{d:'M21 21l-4.3-4.3'}]],
+      zap: [['path',{d:'M13 2 3 14h9l-1 8 10-12h-9z'}]],
+      arrowRight: [['path',{d:'M5 12h14'}],['path',{d:'m12 5 7 7-7 7'}]],
+      chevL: [['path',{d:'M15 18 9 12l6-6'}]],
+      chevR: [['path',{d:'M9 18l6-6-6-6'}]],
+      chevDown: [['path',{d:'m6 9 6 6 6-6'}]],
+      pin: [['path',{d:'M12 17v5'}],['path',{d:'M9 10.76V4h6v6.76a2 2 0 0 0 .59 1.42L18 14.5H6l2.41-2.32A2 2 0 0 0 9 10.76z'}]],
+      archive: [['rect',{x:3,y:4,width:18,height:4,rx:1}],['path',{d:'M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8'}],['path',{d:'M10 12h4'}]],
+      clock: [['circle',{cx:12,cy:12,r:9}],['path',{d:'M12 7v5l3 2'}]],
+      phone: [['path',{d:'M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z'}]],
+      mail: [['rect',{x:2,y:4,width:20,height:16,rx:2}],['path',{d:'m2 7 10 6 10-6'}]],
+      folder: [['path',{d:'M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z'}]],
+      file: [['path',{d:'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'}],['path',{d:'M14 3v5h5'}]],
+      video: [['path',{d:'m22 8-6 4 6 4V8z'}],['rect',{x:2,y:6,width:14,height:12,rx:2}]],
+      plus: [['path',{d:'M5 12h14'}],['path',{d:'M12 5v14'}]],
+      flag: [['path',{d:'M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'}],['path',{d:'M4 22v-7'}]],
+      trash: [['path',{d:'M3 6h18'}],['path',{d:'M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2'}],['path',{d:'M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14'}]],
+      x: [['path',{d:'M18 6 6 18'}],['path',{d:'M6 6l12 12'}]]
+    };
+    const today = new Date();
+    this.todayISO = this.dISO(today);
+    this.customers = [
+      { id:1, company:'Rakennus Virtanen Oy', contact:'Mikko Virtanen', phone:'040 123 4567', email:'mikko@rakennusvirtanen.fi' },
+      { id:2, company:'Kahvila Aamukko', contact:'Sanna Aalto', phone:'050 765 4321', email:'sanna@aamukko.fi' },
+      { id:3, company:'Laine Consulting Oy', contact:'Petri Laine', phone:'044 987 6543', email:'petri@laineconsulting.fi' },
+      { id:4, company:'Parturi-Kampaamo Sointu', contact:'Liisa Mäki', phone:'041 222 3344', email:'liisa@sointu.fi' },
+      { id:5, company:'Meriteam Oy', contact:'Hanna Meri', phone:'040 555 1212', email:'hanna@meriteam.fi' },
+      { id:6, company:'Mikko Räsänen', contact:'Mikko Räsänen', phone:'045 333 7788', email:'mikko.rasanen@gmail.com', priv:true }
+    ];
+    this.events = [
+      { dow:0, start:'09:00', end:'09:30', title:'Aloituspalaveri', source:'outlook', customerId:1 },
+      { dow:0, start:'13:00', end:'13:45', title:'Tilinpäätös läpikäynti', source:'teams', customerId:3 },
+      { dow:1, start:'10:00', end:'10:15', title:'ALV-deadline', source:'outlook', customerId:null },
+      { dow:1, start:'14:30', end:'15:00', title:'Palkka-aineisto', source:'visinner', customerId:2 },
+      { dow:2, start:'11:00', end:'12:00', title:'Kvartaalikatsaus', source:'teams', customerId:5 },
+      { dow:3, start:'09:30', end:'10:00', title:'Asiakastapaaminen', source:'visinner', customerId:2 },
+      { dow:3, start:'15:00', end:'15:30', title:'Kuittien läpikäynti', source:'outlook', customerId:4 },
+      { dow:4, start:'09:00', end:'09:30', title:'Tiimipalaveri', source:'teams', customerId:null },
+      { dow:4, start:'15:00', end:'15:30', title:'Viikon yhteenveto', source:'visinner', customerId:null }
+    ];
+    this.state = {
+      view:'home',
+      w: (typeof window !== 'undefined' ? window.innerWidth : 1280),
+      weekOffset:0,
+      syncMin:3,
+      histOpen:false,
+      newTodoText:'', newTodoCust:'', newTodoPrio:'keski',
+      qnText:'', qnCust:'',
+      custSearch:'', selCust:1,
+      noteSearch:'', notePrio:'kaikki',
+      modal:null,
+      draft:{ customerId:'', title:'', body:'', priority:'keski', category:'Yleinen', date:'' },
+      integrations:{ outlook:true, teams:true, onedrive:true },
+      nextId:1000,
+      todos:[
+        { id:1, customerId:1, text:'ALV-ilmoitus toukokuu', priority:'korkea', date:this.todayISO },
+        { id:2, customerId:2, text:'Palkka-ajo ja maksulista', priority:'korkea', date:this.todayISO },
+        { id:3, customerId:3, text:'Kuukausiraportti & tuloslaskelma', priority:'keski', date:this.todayISO },
+        { id:4, customerId:5, text:'Kirjanpidon täsmäytys', priority:'keski', date:this.todayISO },
+        { id:5, customerId:4, text:'Muistuta puuttuvista kuiteista', priority:'matala', date:this.todayISO },
+        { id:6, customerId:6, text:'Soita verottajalle vuokratuloista', priority:'matala', date:this.todayISO }
+      ],
+      archive:[
+        { id:91, customerId:5, text:'Tiliote-täsmäytys huhtikuu', completedText:'tänään klo 08:40' },
+        { id:92, customerId:2, text:'Palkkalaskelmat lähetetty', completedText:'tänään klo 09:05' },
+        { id:93, customerId:3, text:'Y-tunnuksen tarkistus', completedText:'eilen klo 16:20' },
+        { id:94, customerId:5, text:'Alustava tilinpäätös, luonnos', completedText:'eilen klo 14:10' }
+      ],
+      notes:[
+        { id:11, customerId:1, title:'ALV-jaksotus tarkistettava', body:'Toukokuun ALV jaksotettava oikein — projektikohtainen erittely puuttuu vielä aineistosta.', priority:'korkea', category:'Verotus', pinned:true, order:6 },
+        { id:12, customerId:3, title:'Osakaslaina selvitettävä', body:'Petri nostanut osakaslainaa. Korko ja takaisinmaksuaikataulu sovittava ennen tilinpäätöstä.', priority:'korkea', category:'Tilinpäätös', pinned:false, order:5 },
+        { id:13, customerId:5, title:'Tilinpäätös 2024 aikataulu', body:'Hallituksen kokous 28.6. Aineisto valmiiksi viikkoa aiemmin, sovi Hannan kanssa.', priority:'keski', category:'Tilinpäätös', pinned:false, order:4 },
+        { id:14, customerId:2, title:'Kassajärjestelmän vaihto', body:'Uusi kassa käyttöön 1.7. Myyntiraporttien tuonti muuttuu — ohjeistettava Sannaa.', priority:'keski', category:'Kirjanpito', pinned:false, order:3 },
+        { id:15, customerId:6, title:'Veroilmoituksen täydennys', body:'Vuokratulot lisättävä esitäytettyyn veroilmoitukseen. Deadline lähestyy.', priority:'keski', category:'Verotus', pinned:false, order:2 },
+        { id:16, customerId:4, title:'Kuittien digitointi kesken', body:'Q2 kuitit toimitettu paperisena. Pyydä Liisaa kuvaamaan jatkossa suoraan sovellukseen.', priority:'matala', category:'Yleinen', pinned:false, order:1 }
+      ]
+    };
+    this._nid = 1000;
+  }
+
+  componentDidMount() {
+    this._onR = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._onR);
+    this.applyPalette();
+  }
+  componentDidUpdate() { this.applyPalette(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._onR); }
+  applyPalette() {
+    const el = this.rootRef && this.rootRef.current;
+    if (!el) return;
+    const p = this.palettes[this.props.palette] || this.palettes.metsa;
+    Object.keys(p).forEach(k => el.style.setProperty(k, p[k]));
+  }
+
+  dISO(d) { const z = n => String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
+  ic(name, size, color, stroke) {
+    size = size || 20; stroke = stroke || 1.85;
+    const ch = this.ICONS[name] || [];
+    return React.createElement('svg', { width:size, height:size, viewBox:'0 0 24 24', fill:'none', stroke: color || 'currentColor', strokeWidth:stroke, strokeLinecap:'round', strokeLinejoin:'round', style:{ display:'block' } },
+      ch.map((c,i) => React.createElement(c[0], Object.assign({ key:i }, c[1]))));
+  }
+  nid() { return ++this._nid; }
+  cust(id) { return this.customers.find(c => c.id === id); }
+  custName(id) { const c = this.cust(id); return c ? c.company : ''; }
+  avInitials(name) { if (!name) return ''; const p = String(name).trim().split(/\s+/); return ((p[0] ? p[0][0] : '') + (p[1] ? p[1][0] : '')).toUpperCase(); }
+  avColor(id) {
+    const pal = [['var(--brand-100)','var(--brand-700)'],['var(--sage-100)','var(--sage-700)'],['var(--apricot-100)','var(--apricot-700)'],['#EEE8F4','#6E5680'],['var(--green-100)','var(--green-700)'],['var(--amber-100)','var(--amber-700)']];
+    if (!id) return ['var(--ink-100)','var(--ink-600)'];
+    return pal[(id - 1) % pal.length];
+  }
+  startOfWeek(d) { const x = new Date(d); const day = (x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+  isoWeek(d) {
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = (date.getUTCDay()+6)%7;
+    date.setUTCDate(date.getUTCDate()-dayNum+3);
+    const firstThursday = new Date(Date.UTC(date.getUTCFullYear(),0,4));
+    return 1 + Math.round(((date - firstThursday)/86400000 - 3 + ((firstThursday.getUTCDay()+6)%7))/7);
+  }
+  prio(p) {
+    if (p === 'korkea') return { tone:'error', label:'Korkea', color:'var(--coral-500)', w:3 };
+    if (p === 'keski') return { tone:'warning', label:'Keski', color:'var(--amber-500)', w:2 };
+    return { tone:'success', label:'Matala', color:'var(--green-500)', w:1 };
+  }
+  srcMeta(s) {
+    if (s === 'outlook') return { label:'Outlook', bg:'var(--sage-100)', fg:'var(--sage-700)', dot:'var(--sage-500)' };
+    if (s === 'teams') return { label:'Teams', bg:'#EEE8F4', fg:'#6E5680', dot:'#9B7FB0' };
+    return { label:'Visinner', bg:'var(--brand-50)', fg:'var(--brand-700)', dot:'var(--brand-500)' };
+  }
+
+  setView(v) { this.setState({ view:v }); }
+  onSync() { this.setState({ syncMin:0 }); }
+  toggleHist() { this.setState(s => ({ histOpen: !s.histOpen })); }
+
+  addTodo() {
+    const t = (this.state.newTodoText || '').trim();
+    if (!t) return;
+    const id = this.nid();
+    this.setState(s => ({
+      todos: [{ id, customerId: s.newTodoCust ? Number(s.newTodoCust) : null, text:t, priority:s.newTodoPrio, date:this.todayISO }, ...s.todos],
+      newTodoText:'', newTodoCust:'', newTodoPrio:'keski'
+    }));
+  }
+  onTodoKey(e) { if (e.key === 'Enter') this.addTodo(); }
+  completeTodo(id) {
+    this.setState(s => ({ todos: s.todos.map(t => t.id === id ? Object.assign({}, t, { _done:true }) : t) }));
+    setTimeout(() => {
+      this.setState(s => {
+        const t = s.todos.find(x => x.id === id);
+        if (!t) return {};
+        const nm = new Date();
+        const z = n => String(n).padStart(2,'0');
+        return {
+          todos: s.todos.filter(x => x.id !== id),
+          archive: [{ id:t.id, customerId:t.customerId, text:t.text, completedText:'tänään klo '+z(nm.getHours())+':'+z(nm.getMinutes()) }, ...s.archive]
+        };
+      });
+    }, 320);
+  }
+
+  saveQuickNote() {
+    const t = (this.state.qnText || '').trim();
+    if (!t) return;
+    const id = this.nid();
+    const title = t.split('\n')[0].slice(0, 48);
+    this.setState(s => ({
+      notes: [{ id, customerId: s.qnCust ? Number(s.qnCust) : null, title, body:t, priority:'keski', category:'Pikamuistiinpano', pinned:false, order: 1000 + s.notes.length }, ...s.notes],
+      qnText:'', qnCust:''
+    }));
+  }
+  addQuickTodo() {
+    const t = (this.state.qnText || '').trim();
+    if (!t) return;
+    const id = this.nid();
+    this.setState(s => ({
+      todos: [{ id, customerId: s.qnCust ? Number(s.qnCust) : null, text: t.split('\n')[0].slice(0,60), priority:'keski', date:this.todayISO }, ...s.todos],
+      qnText:'', qnCust:''
+    }));
+  }
+
+  prevWeek() { this.setState(s => ({ weekOffset: s.weekOffset - 1 })); }
+  nextWeek() { this.setState(s => ({ weekOffset: s.weekOffset + 1 })); }
+  gotoToday() { this.setState({ weekOffset:0 }); }
+
+  selectCust(id) { this.setState({ selCust:id }); }
+
+  setNotePrio(v) { this.setState({ notePrio:v }); }
+  pinNote(id) { this.setState(s => ({ notes: s.notes.map(n => n.id === id ? Object.assign({}, n, { pinned: !n.pinned }) : n) })); }
+  deleteNote(id) { this.setState(s => ({ notes: s.notes.filter(n => n.id !== id) })); }
+  scheduleNote(n) {
+    const id = this.nid();
+    this.setState(s => ({ todos: [{ id, customerId:n.customerId, text:n.title, priority:n.priority, date:this.todayISO }, ...s.todos], view:'home' }));
+  }
+
+  openNote(custId) {
+    this.setState({ modal:'note', draft:{ customerId: custId ? String(custId) : '', title:'', body:'', priority:'keski', category:'Yleinen', date:'' } });
+  }
+  closeNote() { this.setState({ modal:null }); }
+  setDraft(k, v) { this.setState(s => ({ draft: Object.assign({}, s.draft, { [k]: v }) })); }
+  saveNote() {
+    const d = this.state.draft;
+    const title = (d.title || '').trim();
+    if (!title) return;
+    const id = this.nid();
+    this.setState(s => {
+      const next = { notes: [{ id, customerId: d.customerId ? Number(d.customerId) : null, title, body:d.body || '', priority:d.priority, category:d.category, pinned:false, order: 1000 + s.notes.length }, ...s.notes], modal:null };
+      if (d.date) {
+        next.todos = [{ id: this.nid(), customerId: d.customerId ? Number(d.customerId) : null, text:title, priority:d.priority, date:d.date }, ...s.todos];
+      }
+      return next;
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const w = s.w || 1280;
+    const showBottomNav = w < 760;
+    const showSidebar = !showBottomNav;
+    const railMode = w >= 760 && w < 1080;
+    const showLabels = w >= 1080;
+    const contentPad = w < 760 ? '16px 16px 30px' : (w < 1080 ? '22px 24px 36px' : '28px 32px 44px');
+    const headerPad = w < 760 ? '14px 16px' : (w < 1080 ? '16px 24px' : '18px 32px');
+    const today = new Date();
+
+    const navDef = [
+      { id:'home', label:'Etusivu', icon:'house' },
+      { id:'calendar', label:'Kalenteri', icon:'calendar' },
+      { id:'customers', label:'Asiakkaat', icon:'users' },
+      { id:'notes', label:'Muistiinpanot', icon:'notebook' },
+      { id:'storage', label:'Tallennustila', icon:'drive' }
+    ];
+    const navItems = navDef.map(n => {
+      const on = s.view === n.id;
+      return {
+        id:n.id, label:n.label, icon: this.ic(n.icon, 22),
+        onClick: () => this.setView(n.id),
+        bg: on ? 'var(--brand-50)' : 'transparent',
+        color: on ? 'var(--brand-700)' : 'var(--ink-600)',
+        weight: on ? 700 : 600,
+        justify: showLabels ? 'flex-start' : 'center'
+      };
+    });
+
+    const weekNoToday = this.isoWeek(today);
+    const greet = today.getHours() < 11 ? 'Hyvää huomenta' : (today.getHours() < 17 ? 'Hyvää päivää' : 'Hyvää iltaa');
+    const longToday = today.getDate() + '. ' + this.monthGen[today.getMonth()] + ' ' + today.getFullYear();
+
+    const titles = {
+      home: { t:'Etusivu', s:'' },
+      calendar: { t:'Kalenteri', s:'Outlook- ja Teams-merkinnät yhdessä näkymässä' },
+      customers: { t:'Asiakkaat', s:s.customers ? '' : '' },
+      notes: { t:'Muistiinpanot', s:'' },
+      storage: { t:'Tallennustila', s:'OneDrive · Visinner-tiimi' }
+    };
+    let pageTitle, pageSubtitle;
+    if (s.view === 'home') { pageTitle = greet + ', Anna'; pageSubtitle = this.dayFull[today.getDay()] + ', ' + longToday; }
+    else if (s.view === 'calendar') { pageTitle = 'Kalenteri'; pageSubtitle = 'Outlook- ja Teams-merkinnät yhdessä näkymässä'; }
+    else if (s.view === 'customers') { pageTitle = 'Asiakkaat'; pageSubtitle = this.customers.length + ' asiakasta'; }
+    else if (s.view === 'notes') { pageTitle = 'Muistiinpanot'; pageSubtitle = s.notes.length + ' muistiinpanoa'; }
+    else { pageTitle = 'Tallennustila'; pageSubtitle = 'OneDrive · Visinner-tiimi'; }
+
+    // HOME
+    const todosToday = s.todos.filter(t => t.date === this.todayISO).map(t => {
+      const p = this.prio(t.priority);
+      return {
+        id:t.id, text:t.text, custName: t.customerId ? this.custName(t.customerId) : 'Ei asiakasta',
+        prioTone:p.tone, prioLabel:p.label, prioColor:p.color,
+        opacity: t._done ? '0' : '1', shift: t._done ? '14px' : '0',
+        onComplete: () => this.completeTodo(t.id)
+      };
+    });
+    const customerOpts = this.customers.map(c => ({ id:String(c.id), name:c.company }));
+    const archiveList = s.archive.map(a => ({ id:a.id, text:a.text, custName: a.customerId ? this.custName(a.customerId) : 'Ei asiakasta', completedText:a.completedText }));
+
+    const monday = this.startOfWeek(today);
+    const todoDow = (today.getDay()+6)%7;
+    const todayEvents = this.events.filter(e => e.dow === todoDow).sort((a,b)=>a.start.localeCompare(b.start)).map((e,i) => {
+      const m = this.srcMeta(e.source);
+      return { id:'te'+i, title:e.title, startText:e.start, dot:m.dot, srcLabel:m.label, custSuffix: e.customerId ? ' · ' + this.custName(e.customerId) : '' };
+    });
+
+    // CALENDAR
+    const base = this.startOfWeek(today); base.setDate(base.getDate() + s.weekOffset*7);
+    const weekNo = this.isoWeek(base);
+    const weekDays = [];
+    for (let i=0;i<7;i++) {
+      const d = new Date(base); d.setDate(base.getDate()+i);
+      const iso = this.dISO(d);
+      const isToday = iso === this.todayISO;
+      const evs = this.events.filter(e => e.dow === i).sort((a,b)=>a.start.localeCompare(b.start)).map((e,k) => {
+        const m = this.srcMeta(e.source);
+        return { kind:'event', timeText:e.start+'–'+e.end, title:e.title, bg:m.bg, fg:m.fg, dot:m.dot, hasSub: !!e.customerId, sub: e.customerId ? this.custName(e.customerId) : '' };
+      });
+      const tds = s.todos.filter(t => t.date === iso).map(t => {
+        const p = this.prio(t.priority);
+        return { kind:'todo', timeText:'Tehtävä', title:t.text, bg:'var(--ink-50)', fg:'var(--ink-600)', dot:p.color, hasSub: !!t.customerId, sub: t.customerId ? this.custName(t.customerId) : '' };
+      });
+      weekDays.push({
+        label: this.dayShort[i], dayNum: d.getDate(), isToday,
+        headBg: isToday ? 'var(--brand-500)' : (i>=5 ? 'var(--ink-50)' : 'var(--surface-card)'),
+        headFg: isToday ? '#fff' : (i>=5 ? 'var(--text-muted)' : 'var(--ink-700)'),
+        items: evs.concat(tds)
+      });
+    }
+    const d1 = new Date(base); const d7 = new Date(base); d7.setDate(base.getDate()+6);
+    let weekRangeText;
+    if (d1.getMonth() === d7.getMonth()) weekRangeText = d1.getDate()+'.–'+d7.getDate()+'. '+this.monthGen[d1.getMonth()]+' '+d7.getFullYear();
+    else weekRangeText = d1.getDate()+'. '+this.monthGen[d1.getMonth()]+' – '+d7.getDate()+'. '+this.monthGen[d7.getMonth()];
+
+    // CUSTOMERS
+    const cs = (s.custSearch || '').toLowerCase();
+    const custList = this.customers.filter(c => !cs || c.company.toLowerCase().includes(cs) || c.contact.toLowerCase().includes(cs)).map(c => {
+      const openTasks = s.todos.filter(t => t.customerId === c.id && t.date === this.todayISO).length;
+      const ac = this.avColor(c.id);
+      return {
+        id:c.id, company:c.company, contact:c.contact, openTasks: openTasks, hasOpen: openTasks > 0,
+        initials: this.avInitials(c.company), avBg: ac[0], avFg: ac[1],
+        bg: s.selCust === c.id ? 'var(--brand-50)' : 'transparent',
+        onSelect: () => this.selectCust(c.id)
+      };
+    });
+    const sc = this.cust(s.selCust) || this.customers[0];
+    const selCustTodos = s.todos.filter(t => t.customerId === sc.id).map(t => { const p = this.prio(t.priority); return { id:t.id, text:t.text, prioTone:p.tone, prioLabel:p.label, prioColor:p.color }; });
+    const selCustNotes = s.notes.filter(n => n.customerId === sc.id).map(n => { const p = this.prio(n.priority); return { id:n.id, title:n.title, body:n.body, category:n.category, prioTone:p.tone, prioLabel:p.label }; });
+    const scAc = this.avColor(sc.id);
+    const selCust = { company:sc.company, contact:sc.contact, phone:sc.phone, email:sc.email, typeLabel: sc.priv ? 'Yksityishenkilö' : 'Yritysasiakas', initials: this.avInitials(sc.company), avBg: scAc[0], avFg: scAc[1], noTodos: selCustTodos.length === 0, noNotes: selCustNotes.length === 0 };
+
+    // NOTES
+    const ns = (s.noteSearch || '').toLowerCase();
+    let notesArr = s.notes.slice();
+    if (s.notePrio !== 'kaikki') notesArr = notesArr.filter(n => n.priority === s.notePrio);
+    if (ns) notesArr = notesArr.filter(n => n.title.toLowerCase().includes(ns) || n.body.toLowerCase().includes(ns) || this.custName(n.customerId).toLowerCase().includes(ns));
+    notesArr.sort((a,b) => (b.pinned - a.pinned) || (this.prio(b.priority).w - this.prio(a.priority).w) || (b.order - a.order));
+    const notesList = notesArr.map(n => {
+      const p = this.prio(n.priority);
+      const cn = n.customerId ? this.custName(n.customerId) : 'Ei asiakasta';
+      const nac = this.avColor(n.customerId);
+      return {
+        id:n.id, custName: cn, initials: this.avInitials(cn), avBg: nac[0], avFg: nac[1], title:n.title, body:n.body,
+        prioTone:p.tone, prioLabel:p.label, category:n.category,
+        borderColor: n.pinned ? 'var(--brand-300)' : 'var(--border-subtle)',
+        pinBg: n.pinned ? 'var(--brand-50)' : 'transparent',
+        pinColor: n.pinned ? 'var(--brand-600)' : 'var(--ink-400)',
+        onPin: () => this.pinNote(n.id),
+        onSchedule: () => this.scheduleNote(n),
+        onDelete: () => this.deleteNote(n.id)
+      };
+    });
+    const notePrioOptions = [
+      { value:'kaikki', label:'Kaikki' }, { value:'korkea', label:'Korkea' }, { value:'keski', label:'Keski' }, { value:'matala', label:'Matala' }
+    ];
+
+    // STORAGE
+    const folders = [
+      { name:'Asiakkaat', count:128 }, { name:'ALV-ilmoitukset', count:54 }, { name:'Tilinpäätökset', count:32 },
+      { name:'Palkat', count:76 }, { name:'Kuitit', count:210 }, { name:'Sopimukset', count:41 }
+    ];
+    const recentFiles = [
+      { name:'ALV_Rakennus_Virtanen_05-2025.pdf', cust:'Rakennus Virtanen Oy', size:'240 kt', modified:'tänään 09:12' },
+      { name:'Tilinpäätös_Meriteam_2024.xlsx', cust:'Meriteam Oy', size:'1,2 Mt', modified:'eilen' },
+      { name:'Palkkalaskelma_Aamukko_05.pdf', cust:'Kahvila Aamukko', size:'88 kt', modified:'eilen' },
+      { name:'Kuitit_Sointu_Q2.zip', cust:'Parturi-Kampaamo Sointu', size:'4,1 Mt', modified:'2 pv sitten' }
+    ];
+    const intDefs = [
+      { key:'outlook', name:'Microsoft Outlook', icon:'mail', bg:'var(--sage-100)', fg:'var(--sage-700)', last:'Kalenteri tuotu tänään 08:15' },
+      { key:'teams', name:'Microsoft Teams', icon:'video', bg:'#EEE8F4', fg:'#6E5680', last:'Kokouskutsut tuotu tänään 08:15' },
+      { key:'onedrive', name:'OneDrive', icon:'cloud', bg:'var(--brand-50)', fg:'var(--brand-600)', last:'Tiedostot synkronoitu' }
+    ];
+    const integrations = intDefs.map(d => {
+      const on = !!s.integrations[d.key];
+      return {
+        name:d.name, icon: this.ic(d.icon, 19), bg:d.bg, fg:d.fg,
+        statusText: on ? d.last : 'Ei yhdistetty',
+        on: on, trackBg: on ? 'var(--brand-500)' : 'var(--ink-300)', knobPos: on ? 'flex-end' : 'flex-start',
+        onToggle: () => this.setState(st => ({ integrations: Object.assign({}, st.integrations, { [d.key]: !st.integrations[d.key] }) }))
+      };
+    });
+    const syncText = s.syncMin === 0 ? 'juuri nyt' : s.syncMin + ' min sitten';
+    const lastSyncText = s.syncMin === 0 ? 'Synkronoitu juuri nyt' : 'Synkronoitu ' + s.syncMin + ' min sitten';
+
+    return {
+      rootRef: this.rootRef,
+      shellDir: showBottomNav ? 'column' : 'row',
+      showSidebar, showBottomNav, sidebarW: railMode ? 76 : 248, showLabels,
+      contentPad, headerPad, titleSize: w < 760 ? 21 : 24,
+      navItems,
+      pageTitle, pageSubtitle,
+      showWeekPill: s.view === 'home' || s.view === 'calendar',
+      weekNoToday, weekNo, weekRangeText,
+      syncText, onSync: () => this.onSync(),
+      isHome: s.view === 'home', isCalendar: s.view === 'calendar', isCustomers: s.view === 'customers', isNotes: s.view === 'notes', isStorage: s.view === 'storage',
+      // icons
+      icCloud: this.ic('cloud',18), icCloudBig: this.ic('cloud',26), icSync: this.ic('refresh',15), icBell: this.ic('bell',20),
+      icCheck: this.ic('check',16,'#fff',2.4), icBuilding: this.ic('building',13), icFlag: this.ic('flag',22), icCalendar: this.ic('calendar',22),
+      icUsers: this.ic('users',22), icNotebook: this.ic('notebook',22), icZap: this.ic('zap',18), icArrowRight: this.ic('arrowRight',15),
+      icArchive: this.ic('archive',19), icChevDown: this.ic('chevDown',18), icChevL: this.ic('chevL',20), icChevR: this.ic('chevR',20),
+      icSearch: this.ic('search',18), icPhone: this.ic('phone',17), icMail: this.ic('mail',17), icPin: this.ic('pin',16),
+      icClock: this.ic('clock',16), icTrash: this.ic('trash',16), icPlus: this.ic('plus',17), icX: this.ic('x',18),
+      icFolder: this.ic('folder',22), icFile: this.ic('file',18), icCheckCircle: this.ic('checkCircle',15),
+      // home
+      openTasksCount: s.todos.filter(t => t.date === this.todayISO).length,
+      eventsTodayCount: todayEvents.length, customerCount: this.customers.length, notesCount: s.notes.length,
+      statCols: w < 760 ? 'repeat(2,1fr)' : 'repeat(4,1fr)',
+      homeCols: w >= 980 ? '1.65fr 1fr' : '1fr',
+      newTodoText: s.newTodoText, onNewTodoText: e => this.setState({ newTodoText:e.target.value }), onTodoKey: e => this.onTodoKey(e),
+      newTodoCust: s.newTodoCust, onNewTodoCust: e => this.setState({ newTodoCust:e.target.value }),
+      newTodoPrio: s.newTodoPrio, onNewTodoPrio: e => this.setState({ newTodoPrio:e.target.value }),
+      addTodo: () => this.addTodo(),
+      customerOpts, todosToday, noTodos: todosToday.length === 0,
+      qnText: s.qnText, onQnText: e => this.setState({ qnText:e.target.value }),
+      qnCust: s.qnCust, onQnCust: e => this.setState({ qnCust:e.target.value }),
+      saveQuickNote: () => this.saveQuickNote(), addQuickTodo: () => this.addQuickTodo(),
+      todayEvents, noTodayEvents: todayEvents.length === 0,
+      histOpen: s.histOpen, toggleHist: () => this.toggleHist(), histRotate: s.histOpen ? '180deg' : '0deg',
+      archiveList, archiveCount: s.archive.length,
+      goCalendar: () => this.setView('calendar'),
+      // calendar
+      prevWeek: () => this.prevWeek(), nextWeek: () => this.nextWeek(), gotoToday: () => this.gotoToday(),
+      weekDays, lastImportText: syncText,
+      // customers
+      custSearch: s.custSearch, onCustSearch: e => this.setState({ custSearch:e.target.value }),
+      custList, noCustResults: custList.length === 0,
+      custCols: w >= 900 ? '320px 1fr' : '1fr',
+      selCust, selCustTodos, selCustNotes, openNoteForSel: () => this.openNote(sc.id),
+      // notes
+      noteSearch: s.noteSearch, onNoteSearch: e => this.setState({ noteSearch:e.target.value }),
+      notePrio: s.notePrio, onNotePrio: v => this.setNotePrio(v), notePrioOptions,
+      openNewNote: () => this.openNote(null),
+      notesList, noNotes: notesList.length === 0,
+      notesCols: w >= 860 ? '1fr 1fr' : '1fr',
+      // storage
+      storagePct: 40, storageUsedText: '412 Gt', storageTotalText: '1 Tt', lastSyncText,
+      storageCols: w >= 860 ? '1.3fr 1fr' : '1fr',
+      folderCols: w < 700 ? 'repeat(2,1fr)' : 'repeat(3,1fr)',
+      folders, recentFiles, integrations,
+      // modal
+      showNoteModal: s.modal === 'note', closeNote: () => this.closeNote(), stop: e => e.stopPropagation(),
+      modalAlign: w >= 700 ? 'center' : 'flex-end', modalPad: w >= 700 ? '24px' : '0',
+      modalRadius: w >= 700 ? 'var(--radius-xl)' : 'var(--radius-xl) var(--radius-xl) 0 0',
+      categories: this.cats,
+      draftCust: s.draft.customerId, onDraftCust: e => this.setDraft('customerId', e.target.value),
+      draftTitle: s.draft.title, onDraftTitle: e => this.setDraft('title', e.target.value),
+      draftBody: s.draft.body, onDraftBody: e => this.setDraft('body', e.target.value),
+      draftPrio: s.draft.priority, onDraftPrio: e => this.setDraft('priority', e.target.value),
+      draftCat: s.draft.category, onDraftCat: e => this.setDraft('category', e.target.value),
+      draftDate: s.draft.date, onDraftDate: e => this.setDraft('date', e.target.value),
+      saveNote: () => this.saveNote()
+    };
+  }
+}
+</script>
+</body>
+</html>
